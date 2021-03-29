@@ -46,7 +46,7 @@ public class TransformerServiceImplTest {
 
     @Test
     public void findAll_findAll_shouldReturnAll(){
-        service.get(1230L);
+        service.findAll();
     }
 
     @Test
