@@ -101,3 +101,7 @@ Include the API endpoints used with example (JSON) payloads
 
 ### API Document
 http://localhost:8080/swagger-ui/index.html
+
+### Todo
+- Improve and refactor tests: Using mocks for related beans and speed.
+- Improve Score DataType rendering in Spring Fox.
