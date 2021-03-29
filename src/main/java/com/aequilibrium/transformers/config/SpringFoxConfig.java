@@ -1,5 +1,6 @@
 package com.aequilibrium.transformers.config;
 
+import com.aequilibrium.transformers.domain.Score;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -17,6 +18,7 @@ public class SpringFoxConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .directModelSubstitute(Score.class, Integer.class)
                 .apiInfo(getApiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())
