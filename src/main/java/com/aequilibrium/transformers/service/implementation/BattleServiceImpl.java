@@ -3,6 +3,7 @@ package com.aequilibrium.transformers.service.implementation;
 import com.aequilibrium.transformers.domain.*;
 import com.aequilibrium.transformers.dto.BattleRequest;
 import com.aequilibrium.transformers.service.BattleService;
+import com.aequilibrium.transformers.service.EventPublisher;
 import com.aequilibrium.transformers.service.TransformerService;
 import com.aequilibrium.transformers.service.TransformsComparator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,19 @@ public class BattleServiceImpl implements BattleService {
     private final List<TransformerBattle> battles = new ArrayList<>();
     private final TransformsComparator comparator;
     private final TransformerService transformerService;
+    private final EventPublisher publisher;
 
     @Autowired
-    public BattleServiceImpl(TransformsComparator comparator, TransformerService transformerService) {
+    public BattleServiceImpl(TransformsComparator comparator, TransformerService transformerService, EventPublisher publisher) {
         this.comparator = comparator;
         this.transformerService = transformerService;
+        this.publisher = publisher;
     }
 
     @Override
     public BattleResult fight(BattleRequest request) {
         setup(request);
+        publisher.publish(new BattleEvent(BattleEvent.Type.START));
         IntStream.range(0, Math.min(autobots.getMembers().size(), decepticons.getMembers().size()))
                 .forEach(index -> {
                     Transformer autobot = autobots.getMembers().get(index);
@@ -41,12 +45,14 @@ public class BattleServiceImpl implements BattleService {
                     BattleStatus status = comparator.compare(autobot, decepticon);
                     updateStatus(autobot, decepticon, status);
                 });
+        publisher.publish(new BattleEvent(BattleEvent.Type.END));
         return buildResult();
     }
 
     private void setup(BattleRequest request) {
         autobots = Team.autobots(request.getAutobots().getName(), getMembers(request.getAutobots().getMembers()));
         decepticons = Team.decepticons(request.getDecepticons().getName(), getMembers(request.getDecepticons().getMembers()));
+        publisher.publish(new BattleEvent(BattleEvent.Type.SETUP));
     }
 
     private List<Transformer> getMembers(List<Long> ids) {
@@ -64,10 +70,12 @@ public class BattleServiceImpl implements BattleService {
         List<TransformerBattle> autobotsWins = filterBattles(BattleStatus.AUTOBOT);
         List<TransformerBattle> deceptionsWins = filterBattles(BattleStatus.DECEPTICON);
         if (autobotsWins.size() > deceptionsWins.size()) {
+            publisher.publish(new BattleEvent.WinnerEvent(autobots));
             return new BattleResult(battles.size(), autobots,
                     deceptionsWins.stream().map(TransformerBattle::getDecepticon).collect(Collectors.toList())
             );
         } else if (deceptionsWins.size() > autobotsWins.size()) {
+            publisher.publish(new BattleEvent.WinnerEvent(decepticons));
             return new BattleResult(battles.size(), decepticons,
                     autobotsWins.stream().map(TransformerBattle::getDecepticon).collect(Collectors.toList())
             );

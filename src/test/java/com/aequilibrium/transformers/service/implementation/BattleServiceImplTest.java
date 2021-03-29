@@ -1,25 +1,37 @@
 package com.aequilibrium.transformers.service.implementation;
 
+import com.aequilibrium.transformers.domain.BattleEvent;
 import com.aequilibrium.transformers.domain.BattleResult;
 import com.aequilibrium.transformers.dto.BattleRequest;
 import com.aequilibrium.transformers.dto.TeamRequest;
 import com.aequilibrium.transformers.service.BattleService;
+import com.aequilibrium.transformers.service.TransformerService;
+import com.aequilibrium.transformers.service.TransformsComparator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class BattleServiceImplTest {
 
     private final BattleService service;
+    private final List<BattleEvent> events = new ArrayList<>();
 
     @Autowired
-    public BattleServiceImplTest(BattleService service) {
-        this.service = service;
+    public BattleServiceImplTest(TransformsComparator comparator, TransformerService service) {
+        this.service = new BattleServiceImpl(comparator, service, events::add);
+    }
+
+    @BeforeEach
+    public void restart(){
+        events.clear();
     }
 
     @Test
@@ -35,8 +47,7 @@ public class BattleServiceImplTest {
         battleRequest.setDecepticons(deceptions);
         BattleResult battleResult = service.fight(battleRequest);
         assertTrue(battleResult.getCount() > 0);
-        assertTrue(battleResult.getWinner().isPresent());
-        assertFalse(battleResult.getLoserSurvivors().isEmpty());
+        assertTrue(events.size() > 3);
     }
 
     @Test

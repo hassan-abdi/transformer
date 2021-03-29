@@ -48,4 +48,12 @@ public class Team {
         team.setMembers(members);
         return team;
     }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "name='" + name + '\'' +
+                ", group=" + group +
+                '}';
+    }
 }
