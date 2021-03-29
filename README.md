@@ -84,3 +84,20 @@ Include the API endpoints used with example (JSON) payloads
 - The project must be uploaded onto GitHub and have descriptive commit messages
 - Only an in memory data repository should be used
 
+### Technology Stack
+- Java 8
+- Spring boot
+- Swagger
+- H2 DB
+- Junit 5
+- Gradle
+
+### Build Command
+- To build and run tests 
+> gradle clean build
+
+- To running the service
+> gradle bootRun
+
+### API Document
+http://localhost:8080/swagger-ui/index.html
