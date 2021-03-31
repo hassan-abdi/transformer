@@ -80,7 +80,7 @@ public class BattleServiceImpl implements BattleService {
                     autobotsWins.stream().map(TransformerBattle::getDecepticon).collect(Collectors.toList())
             );
         }
-        return BattleResult.tie(deceptionsWins.size());
+        return BattleResult.tie(battles.size());
     }
 
     private List<TransformerBattle> filterBattles(BattleStatus status) {

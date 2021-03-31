@@ -47,7 +47,7 @@ public class BattleServiceImplTest {
         battleRequest.setDecepticons(deceptions);
         BattleResult battleResult = service.fight(battleRequest);
         assertTrue(battleResult.getCount() > 0);
-        assertTrue(events.size() > 3);
+        assertTrue(events.size() >= 3);
     }
 
     @Test
