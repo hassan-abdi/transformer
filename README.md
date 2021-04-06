@@ -1,5 +1,5 @@
 # Transformers
-Aequilibrium does love transforming... people, lives, teams, companies. And there’s no better
+We do love transforming... people, lives, teams, companies. And there’s no better
 representation of transformation than Hasbro’s Transformers, the classic television series
 featuring heroic Autobots raging their battle to destroy the evil forces of the Decepticons.
 The Transformers are at war and you are in charge of settling the score! You’re to create an API
