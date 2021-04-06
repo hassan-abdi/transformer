@@ -68,22 +68,6 @@ A, 4,4,4,4,4,4,4,4
 The output should be: 1 battle Winning team (Decepticons): Soundwave Survivors from the
 losing team (Autobots): Hubcap
 
-### Requirements:
-
-- API must be RESTful
-- Delivered as a Java web app (Spring boot or Spring mvc). This must be created in at
-least Java 8
-- The project must include unit tests (do not include integration tests)
-- Short document explaining how to build and start the project. This Readme file should
-show:
-1. How to build and run the unit tests
-2. How to run the application
-Include the API endpoints used with example (JSON) payloads
-3. Any assumptions or notes to the reviewer
-- A list of default transformers is created on startup: at least 3 Autobots, 3 Decepticons
-- The project must be uploaded onto GitHub and have descriptive commit messages
-- Only an in memory data repository should be used
-
 ### Technology Stack
 - Java 8
 - Spring boot
